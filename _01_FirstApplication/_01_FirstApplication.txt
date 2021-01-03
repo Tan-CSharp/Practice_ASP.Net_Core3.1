@@ -1,0 +1,60 @@
+https://www.yogihosting.com/aspnet-core-first-application
+1._01_FirstApplication
+	- Create a new project => ASP.NET Core Web Application => "_01_FirstApplication" => Create
+	- Add Controller: FirstController
+		public string Index()
+		{
+			return "Index";
+		}
+
+		public IActionResult Hello()
+		{
+			return View();
+		}
+	- Add Views: 
+		+ Add Folder "First"
+		+ Add => View => Razor Pages => Razor Page Empty => "Hello.cshtml"
+			@{
+				ViewData["Title"] = "Hello";
+			}
+			  
+			<h2>Hello</h2>
+	- Adding Dynamic Data to the View
+		public IActionResult Hello()
+		{
+			ViewBag.Message = "Hello World";
+			return View();
+		}
+		+ Change "Hello.cshtml":
+		<h2>@ViewBag.Message</h2>
+	- Adding Model and transferring its data to View
+		+ Right click "Models" => Add => Class => "Person.cs"
+			namespace FirstApp.Models
+			{
+				public class Person
+				{
+					public string Name { get; set; }
+					public int Age { get; set; }
+					public string Location { get; set; }
+				}
+			}
+		+ Change "FirstController":
+			public IActionResult Info()
+			{
+				Person person = new Person();
+				person.Name = "John";
+				person.Age = 18;
+				person.Location = "United States";
+				return View(person);
+			}
+		+ Views/First: Add => View => Razor Pages => Razor Page Empty => "Info.cshtml"
+			@model Person
+			@{
+				ViewData["Title"] = "Info";
+			}
+			  
+			<h2>Info</h2>
+			<p>Name: @Model.Name</p>
+			<p>Name: @Model.Age</p>
+			<p>Name: @Model.Location</p>
+		=> Go "/First/Info"
